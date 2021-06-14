@@ -3,17 +3,16 @@
     using StackExchange.Redis;
     using System;
 
-    public class RedisConnectionHelper
+    public sealed class RedisConnectionHelper
     {
-        static RedisConnectionHelper()
+        private RedisConnectionHelper()
         {
-            lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
-            {
-                return ConnectionMultiplexer.Connect("localhost");
-            });
         }
 
-        private readonly static Lazy<ConnectionMultiplexer> lazyConnection;
+        private readonly static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+        {
+            return ConnectionMultiplexer.Connect("localhost:6379");
+        });
 
         public static ConnectionMultiplexer Connection
         {
